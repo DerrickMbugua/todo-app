@@ -1,15 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>Todo App</h1>
+  <form @submit.prevent="addNewTodo">
+    <input name="newTodo" v-model="newTodo">
+    <button>Add New Todo</button>
+  </form>
+ <h2> {{ newTodo }} </h2>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  setup(){
+    const newTodo = ref('');
+
+
+    function addNewTodo(){
+      console.log('form was submitted');
+    }
+    return{
+      newTodo,
+      addNewTodo,
+    };
   }
 }
 </script>

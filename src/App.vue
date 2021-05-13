@@ -1,88 +1,90 @@
 <template>
   <h1>Todo App</h1>
-  <form @submit.prevent="addNewTodo">
-    <input name="newTodo" v-model="newTodo">
-    <button>Add New Todo</button>
+  <form @submit.prevent="addTodo">
+    <label>Add a Todo</label><br />
+    <input name="newTodo" v-model="newTodo" /><br />
+    <button>Submit</button><br />  
   </form>
-  <button @click="markAllDone">Mark All Done</button>
-  <button @click="removeAllTodos">Remove All</button>
-  <ol>
-    <li :class="{ done: todo.done }" v-for="(todo, index) in todos" :key="todo.id">
-   <h3 @click="toggleDone(todo)">{{ todo.content }}</h3>
-   <button @click="removeTodo(index)">Remove Todo</button>
- </li>
-  </ol>
- 
+    <button @click="markAllDone">Mark All Done</button>
+    <button @click="removeAll">Remove All</button>
+   <ul>
+      <li v-for="(item, index) in todos" :key="item.id" class="todo">
+        <h3 :class="{ done: item.done }" @click="toggleDone(item)">
+          {{ item.content }}
+        </h3>
+        <button @click="removeTodo(index)">Remove Todo</button>
+      </li>
+    </ul>
 </template>
 
 <script>
-import { ref } from 'vue';
-
+import { ref } from "vue";
 export default {
-  setup(){
-    const newTodo = ref('');
+  setup() {
+    const newTodo = ref("");
+
     const todos = ref([]);
 
-    function addNewTodo(){
+    function addTodo() {
       todos.value.push({
         id: Date.now(),
         done: false,
         content: newTodo.value,
-
       });
       newTodo.value = '';
     }
 
-    function toggleDone(todo){
-      todo.done = !todo.done;
+    function toggleDone(item) {
+      item.done = !item.done;
     }
 
-    function removeTodo(index){
+    function removeTodo(index) {
       todos.value.splice(index, 1);
     }
 
     function markAllDone(){
-      todos.value.forEach((todo) => todo.done = true);
+      todos.value.forEach((item) => item.done = true);
     }
 
-    function removeAllTodos(){
-todos.value = [];
+    function removeAll(){
+      todos.value = ([]);
     }
 
-    return{
-      todos,
-      newTodo,
-      addNewTodo,
-      toggleDone,
-      removeTodo,
+    return {
+      removeAll,
       markAllDone,
-      removeAllTodos,
+      removeTodo,
+      toggleDone,
+      todos,
+      addTodo,
+      newTodo,
     };
-  }
-}
+  },
+};
 </script>
 
 <style>
-
-body{
+body {
   font-family: sans-serif;
   padding-top: 1em;
   padding-bottom: 1em;
-  font-size: 2em;
-  width: 80%;
+  font-size: 1.5em;
   margin: 0 auto;
+  width: 90%;
 }
-input, textarea, button, p, div, section, article, select{
+input,
+button,
+p,
+div {
   display: block;
   width: 100%;
   font-family: sans-serif;
-  font-size: 1em;
   margin: 0.5em;
 }
-.done{
+.done {
   text-decoration: line-through;
 }
-h3{
+.todo {
   cursor: pointer;
 }
 </style>
